@@ -45,21 +45,22 @@ ocular_ring的长度和厚度都建议更薄一些，以在离摄像机近距离
 - 模型贴图: silencer.png
 - 背包 2D 贴图: silencer.png    
 1. 按照 [创建第一个枪包](/zh/gunpack/first_gunpack/) 的步骤创建枪包目录。
-2. 配件模型应放入枪包的 models/ 目录下。我们可以创建一个子目录 models/attachment/ 对配件模型进行分类。并将模型文件放在此目录下。
+2. 配件模型应放入枪包的 geo_models/ 目录下。我们可以创建一个子目录 geo_models/attachment/ 对配件模型进行分类。并将模型文件放在此目录下。
 3. 贴图文件应放入枪包的 textures/ 目录下。同理，我们创建一个子目录 textures/attachment/ 对配件贴图进行归类。在此目录下分别创建 uv 和 slot 文件夹，用于分别储存模型贴图和背包 2D 贴图。我们将模型贴图置于 textures/attachment/uv/ 目录下，背包 2D 贴图置于 textures/attachment/slot/ 目录下。   
 
 如果你按照如上步骤操作，最后你将会得到如下的目录视图:
 ```
 tutorial_gun_pack
 └─ tutorial
-   ├─ pack.json
+   ├─ asset
+   ├─ tutorial
    ├─ textures
    │  └─ attachment
    │     ├─ uv
    │     │  └─ silencer.png
    │     └─ slot
    │        └─ silencer.png
-   ├─ models
+   ├─ geo_models
    │  └─ attachment
    │     └─ silencer_geo.json
    └─ lang
@@ -92,13 +93,13 @@ tutorial_gun_pack
 }
 ```
 ### 创建配件效果文件
-配件效果文件应置于 attachments/display/ 目录下。此文件用于定义配件的展示效果，如模型、贴图、动画等。接下来我们为「手枪消音器」创建一个最基本的效果文件。   
-创建文件 attachments/display/silencer_display.json
+配件效果文件应置于 display/attachments/ 目录下。此文件用于定义配件的展示效果，如模型、贴图、动画等。接下来我们为「手枪消音器」创建一个最基本的效果文件。   
+创建文件 display/attachments/silencer_display.json
 ``` json
 {
   // 使用我们放入的背包 2D 贴图：textures/attachment/slot/silencer.png。注意，不需要包含文件后缀，也不要包含开头的 "textures/"
   "slot": "tutorial:attachment/slot/silencer",
-  // 使用我们放入的模型文件：models/gun/silencer_geo.json。注意，不需要包含文件后缀，也不要包含开头的 "models/"
+  // 使用我们放入的模型文件：geo_models/gun/silencer_geo.json。注意，不需要包含文件后缀，也不要包含开头的 "geo_models/"
   "model": "tutorial:attachment/silencer_geo",
   // 使用我们放入的模型贴图：textures/attachment/uv/silencer.png。注意，不需要包含文件后缀，也不要包含开头的 "textures/"
   "texture": "tutorial:attachment/uv/silencer"
@@ -130,9 +131,9 @@ tutorial_gun_pack
 {
   // 配件的显示名称，支持使用语言文件定义
   "name": "tutorial.attachment.silencer.name",
-  // 配件效果文件，对应 attachments/display/silencer_display.json，其中前缀"attachments/display/"和后缀".json"不需要包含
+  // 配件效果文件，对应 display/attachments/silencer_display.json，其中前缀"display/attachments/"和后缀".json"不需要包含
   "display": "tutorial:silencer_display",
-  // 配件参数文件，对应 attachments/data/silencer_data.json，其中前缀"attachments/data/"和后缀".json"不需要包含
+  // 配件参数文件，对应 data/attachments/silencer_data.json，其中前缀"data/attachments/"和后缀".json"不需要包含
   "data": "tutorial:silencer_data",
   // 创造栏标签页类别，因为创建的是枪口配件，所以类型选择 muzzle
   "type": "muzzle"
@@ -172,27 +173,30 @@ tutorial_gun_pack
 ```
 tutorial_gun_pack
 └─ tutorial
-   ├─ pack.json
-   ├─ textures
-   │  └─ attachment
-   │     ├─ uv
-   │     │  └─ silencer.png
-   │     └─ slot
-   │        └─ silencer.png
-   ├─ models
-   │  └─ attachment
-   │     └─ silencer_geo.json
-   ├─ lang
-   │  └─ en_us.json
-   └─ attachments
-      ├─ index
-      │  └─ silencer.json
-      ├─ display
-      │  └─ silencer_display.json
-      └─ data
-         └─ silencer_data.json
+   ├─ assets
+   │    └─ tutorial
+   │        ├─ display
+   │        │     └─ attachments
+   │        │           └─ silencer_display.json
+   │        ├─ textures
+   │        │  └─ attachment
+   │        │     ├─ uv
+   │        │     │  └─ silencer.png
+   │        │     └─ slot
+   │        │        └─ silencer.png
+   │        ├─ lang
+   │        │   └─ en_us.json
+   │        └─ geo_models
+   │             └─ attachment
+   │                 └─ silencer_geo.json
+   └─ data
+      └─ tutorial
+          ├─ index
+          │  └─ silencer.json
+          └─ data
+             └─ silencer_data.json
 ```
-将创建好的枪包文件夹拷贝到 Minecraft 客户端的版本根目录下的 config/tac/custom/ 文件夹中，然后启动游戏。
+将创建好的枪包文件夹拷贝到 Minecraft 客户端的版本根目录下的 tacz 文件夹中，然后启动游戏。
 ::: tip
 需要注意的是，配件物品需要和枪械的定位组一起使用，关于定位组的创建和使用，请参考 [枪械模型定位组](/zh/gunpack/gun_positioning/) 中的教程内容。
 :::
